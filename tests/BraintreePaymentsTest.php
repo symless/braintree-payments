@@ -2,15 +2,15 @@
 
 namespace Symless\BraintreePayments\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Carbon\Carbon;
 use Braintree_Configuration;
 use Illuminate\Http\Request;
-use PHPUnit_Framework_TestCase;
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Symless\BraintreePayments\Http\Controllers\BraintreeWebhookController;
 
-class BraintreePaymentsTest extends PHPUnit_Framework_TestCase
+class BraintreePaymentsTest extends TestCase
 {
 	public static function setUpBeforeClass()
 	{
