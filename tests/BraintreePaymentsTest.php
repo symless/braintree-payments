@@ -52,5 +52,8 @@ class BraintreePaymentsTest extends PHPUnit_Framework_TestCase
 		});
 	}
 
-
+	public function tearDown()
+	{
+		$this->schema()->drop('users');
+	}
 }
