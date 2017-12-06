@@ -73,6 +73,34 @@ class BraintreePaymentsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($owner->email, $braintreeCustomer->email);
 	}
 
+	public function testCharge()
+	{
+		$amount = '19.00';
+
+		/**
+		 * If we're running the tests frequently Braintree
+		 * may throw a duplicate tx exception. This is a
+		 * good thing for prod, but not for testing.
+		 *
+		 * We can pad the email address with entropy to
+		 * get around this.
+		 */
+		$emailNonce = str_pad((string) rand(1, 999999), 6, '0', STR_PAD_LEFT);
+
+		$owner = User::create([
+			'email'     => "travisci_{$emailNonce}@symless.com",
+			'forename'  => "Travis",
+			'surname'   => "Testing",
+		]);
+
+		$owner->createAsBraintreeCustomer($this->getTestToken());
+		/** @var \Braintree_Result_Successful $braintreeCharge */
+		$braintreeCharge = $owner->charge($amount);
+
+		$this->assertInstanceOf('Braintree\Result\Successful', $braintreeCharge);
+		$this->assertEquals($amount, $braintreeCharge->transaction->amount);
+	}
+
 	protected function getTestToken()
 	{
 		return 'fake-valid-nonce';
