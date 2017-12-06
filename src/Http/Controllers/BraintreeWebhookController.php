@@ -47,10 +47,9 @@ class BraintreeWebhookController extends Controller
 	/**
 	 * Handle calls to missing methods on the controller.
 	 *
-	 * @param  array  $parameters
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	protected function missingMethod($params = [])
+	protected function missingMethod()
 	{
 		return new Response();
 	}
