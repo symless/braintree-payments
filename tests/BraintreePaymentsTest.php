@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use PHPUnit_Framework_TestCase;
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use Laravel\Cashier\Http\Controllers\WebhookController;
+use Symless\BraintreePayments\Http\Controllers\BraintreeWebhookController;
 
 class BraintreePaymentsTest extends PHPUnit_Framework_TestCase
 {
@@ -55,5 +55,49 @@ class BraintreePaymentsTest extends PHPUnit_Framework_TestCase
 	public function tearDown()
 	{
 		$this->schema()->drop('users');
+	}
+
+	public function testUserCanBeCreated()
+	{
+		/** @var User $owner */
+		$owner = User::create([
+			'email'     => 'travisci@symless.com',
+			'forename'  => 'Travis',
+			'surname'   => 'Testing'
+		]);
+
+		$braintreeCustomer = $owner->createAsBraintreeCustomer($this->getTestToken());
+
+		$this->assertEquals($owner->surname, $braintreeCustomer->lastName);
+		$this->assertEquals($owner->forename, $braintreeCustomer->firstName);
+		$this->assertEquals($owner->email, $braintreeCustomer->email);
+	}
+
+	protected function getTestToken()
+	{
+		return 'fake-valid-nonce';
+	}
+
+	protected function schema()
+	{
+		return $this->connection()->getSchemaBuilder();
+	}
+
+	protected function connection()
+	{
+		return Eloquent::getConnectionResolver()->connection();
+	}
+}
+
+class User extends Eloquent
+{
+	use \Symless\BraintreePayments\Billable;
+}
+
+class BraintreePaymentsTestControllerStub extends BraintreeWebhookController
+{
+	protected function parseBraintreeNotification( $request )
+	{
+		return json_decode($request->getContent());
 	}
 }
