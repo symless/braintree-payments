@@ -9,7 +9,6 @@
     ],
     "require": {
         "braintree/braintree_php": "^3.26",
-        "dompdf/dompdf": "^0.8.2",
         "illuminate/database": "~5.3",
         "illuminate/support": "~5.3",
         "nesbot/carbon": "~1.0",
