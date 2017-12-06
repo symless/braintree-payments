@@ -45,56 +45,6 @@ class BraintreeWebhookController extends Controller
 	}
 
 	/**
-	 * Handle a subscription cancellation notification from Braintree.
-	 *
-	 * @param  \Braintree\WebhookNotification  $webhook
-	 * @return \Illuminate\Http\Response
-	 */
-	protected function handleSubscriptionCancelled($webhook)
-	{
-		return $this->cancelSubscription($webhook->subscription->id);
-	}
-
-	/**
-	 * Handle a subscription expiration notification from Braintree.
-	 *
-	 * @param  \Braintree\WebhookNotification  $webhook
-	 * @return \Illuminate\Http\Response
-	 */
-	protected function handleSubscriptionExpired($webhook)
-	{
-		return $this->cancelSubscription($webhook->subscription->id);
-	}
-
-	/**
-	 * Handle a subscription cancellation notification from Braintree.
-	 *
-	 * @param  string  $subscriptionId
-	 * @return \Illuminate\Http\Response
-	 */
-	protected function cancelSubscription($subscriptionId)
-	{
-		$subscription = $this->getSubscriptionById($subscriptionId);
-
-		if ($subscription && (!$subscription->cancelled() || $subscription->onGracePeriod())) {
-			$subscription->markAsCancelled();
-		}
-
-		return new Response('Webhook Handled', 200);
-	}
-
-	/**
-	 * Get the model for the given subscription ID.
-	 *
-	 * @param  string  $subscriptionId
-	 * @return \Laravel\Cashier\Subscription
-	 */
-	protected function getSubscriptionById($subscriptionId)
-	{
-		return Subscription::where('braintree_id', $subscriptionId)->first();
-	}
-
-	/**
 	 * Handle calls to missing methods on the controller.
 	 *
 	 * @param  array  $parameters
