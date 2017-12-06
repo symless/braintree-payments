@@ -19,11 +19,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 trait Billable
 {
 	/**
-	 * @var string
-	 */
-	protected $braintree_id;
-
-	/**
 	 * @var int
 	 */
 	protected $taxPercentage = 0;
@@ -60,7 +55,7 @@ trait Billable
 
 		$paymentMethod = $this->paymentMethod();
 
-		$paypalAccount = $paymentMethod instanceof  PayPalAccount;
+		$paypalAccount = $paymentMethod instanceof PayPalAccount;
 
 		$this->forceFill([
 			'braintree_id'   => $response->customer->id,
@@ -121,7 +116,7 @@ trait Billable
 		$customer = $this->asBraintreeCustomer();
 
 		$response = BraintreeTransaction::sale(array_merge([
-			'amount'             => (string) round($amount * (1 + ($this->taxPercentage() / 100)) , 2),
+			'amount'             => (string) round($amount * (1 + ($this->taxPercentage / 100)) , 2),
 			'paymentMethodToken' => $this->paymentMethod()->token,
 			'options'            => [
 				'submitForSettlement'   => true
@@ -134,6 +129,17 @@ trait Billable
 		}
 
 		return $response;
+	}
+
+	public function setTaxPercentage($taxPercentage)
+	{
+		$this->taxPercentage = $taxPercentage;
+		return $this;
+	}
+
+	public function getTaxPercentage()
+	{
+		return $this->taxPercentage;
 	}
 
 }
