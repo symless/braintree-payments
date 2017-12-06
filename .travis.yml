@@ -10,7 +10,3 @@ sudo: false
 install: travis_retry composer install --no-interaction --prefer-source
 
 script: vendor/bin/phpunit --verbose
-
-matrix:
-  allow_failures:
-    - php: 7.1
