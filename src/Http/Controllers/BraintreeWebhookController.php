@@ -4,7 +4,6 @@ namespace Symless\BraintreePayments\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
-use Laravel\Cashier\Subscription;
 use Braintree\WebhookNotification;
 use Illuminate\Routing\Controller;
 use Symfony\Component\HttpFoundation\Response;
