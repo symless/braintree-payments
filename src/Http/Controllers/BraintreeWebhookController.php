@@ -11,6 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BraintreeWebhookController extends Controller
 {
+	/**
+	 * Handle a Braintree webhook call.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
 	public function handleWebhook(Request $request)
 	{
 		try {
@@ -28,21 +34,45 @@ class BraintreeWebhookController extends Controller
 		return $this->missingMethod();
 	}
 
+	/**
+	 * Parse the given Braintree webhook notification request.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Braintree\WebhookNotification
+	 */
 	protected function parseBraintreeNotification($request)
 	{
 		return WebhookNotification::parse($request->bt_signature, $request->bt_payload);
 	}
 
+	/**
+	 * Handle a subscription cancellation notification from Braintree.
+	 *
+	 * @param  \Braintree\WebhookNotification  $webhook
+	 * @return \Illuminate\Http\Response
+	 */
 	protected function handleSubscriptionCancelled($webhook)
 	{
 		return $this->cancelSubscription($webhook->subscription->id);
 	}
 
+	/**
+	 * Handle a subscription expiration notification from Braintree.
+	 *
+	 * @param  \Braintree\WebhookNotification  $webhook
+	 * @return \Illuminate\Http\Response
+	 */
 	protected function handleSubscriptionExpired($webhook)
 	{
 		return $this->cancelSubscription($webhook->subscription->id);
 	}
 
+	/**
+	 * Handle a subscription cancellation notification from Braintree.
+	 *
+	 * @param  string  $subscriptionId
+	 * @return \Illuminate\Http\Response
+	 */
 	protected function cancelSubscription($subscriptionId)
 	{
 		$subscription = $this->getSubscriptionById($subscriptionId);
@@ -54,11 +84,23 @@ class BraintreeWebhookController extends Controller
 		return new Response('Webhook Handled', 200);
 	}
 
+	/**
+	 * Get the model for the given subscription ID.
+	 *
+	 * @param  string  $subscriptionId
+	 * @return \Laravel\Cashier\Subscription
+	 */
 	protected function getSubscriptionById($subscriptionId)
 	{
 		return Subscription::where('braintree_id', $subscriptionId)->first();
 	}
 
+	/**
+	 * Handle calls to missing methods on the controller.
+	 *
+	 * @param  array  $parameters
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
 	protected function missingMethod($params = [])
 	{
 		return new Response();
