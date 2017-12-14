@@ -111,15 +111,16 @@ trait Billable
 	 * @return \Braintree\Result\Error|\Braintree\Result\Successful
 	 * @throws BraintreeException
 	 */
-	public function charge($amount, array $options = [])
+	public function charge($amount, $paymentMethodNonce, array $options = [])
 	{
-		$customer = $this->asBraintreeCustomer();
-
 		$response = BraintreeTransaction::sale(array_merge([
 			'amount'             => (string) round($amount * (1 + ($this->taxPercentage / 100)) , 2),
-			'paymentMethodToken' => $this->paymentMethod()->token,
+			'paymentMethodNonce' => $paymentMethodNonce,
+			'merchantAccountId'  => 'symlessUSD',
 			'options'            => [
-				'submitForSettlement'   => true
+				'submitForSettlement'   => true,
+				'storeInVault'          => false,
+				'storeInVaultOnSuccess' => false,
 			],
 			'recurring'          => false,
 		], $options));
