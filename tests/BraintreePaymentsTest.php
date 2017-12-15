@@ -95,7 +95,7 @@ class BraintreePaymentsTest extends TestCase
 
 		$owner->createAsBraintreeCustomer($this->getTestToken());
 		/** @var \Braintree_Result_Successful $braintreeCharge */
-		$braintreeCharge = $owner->charge($amount);
+		$braintreeCharge = $owner->charge($amount, $this->getTestToken());
 
 		$this->assertInstanceOf('Braintree\Result\Successful', $braintreeCharge);
 		$this->assertEquals($amount, $braintreeCharge->transaction->amount);
