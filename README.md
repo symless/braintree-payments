@@ -1,6 +1,6 @@
 # Laravel Cashier - Braintree Edition (Beta)
 
-[![Build Status](https://travis-ci.com/symless/braintree-payments.svg)](https://travis-ci.com/symless/braintree-payments)
+[![Build Status](https://travis-ci.com/symless/braintree-payments.svg?token=qA4emxcJZXUc5WtoVgdL&branch=master)](https://travis-ci.com/symless/braintree-payments)
 
 ## Introduction
 
