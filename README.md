@@ -19,6 +19,6 @@ You will need to set the following details locally and on your Braintree account
     BRAINTREE_PRIVATE_KEY=
     BRAINTREE_MODEL=User
 
-### Deployment
+## Deployment
 
 As we are using a private repository for this package, you will need to provide a valid GitHub API token, with sufficient scope, for composer to use to pull the repository.
