@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "braintree/braintree_php": "^3.26",
+        "braintree/braintree_php": "^4.6",
         "illuminate/database": "~5.3",
         "illuminate/support": "~5.3",
         "nesbot/carbon": "~1.0",
