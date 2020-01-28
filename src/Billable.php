@@ -111,7 +111,7 @@ trait Billable
 	 * @return \Braintree\Result\Error|\Braintree\Result\Successful
 	 * @throws BraintreeException
 	 */
-	public function charge($amount, $paymentMethodNonce, array $options = [])
+	public function charge($amount, $paymentMethodNonce, array $options = array())
 	{
 		$response = BraintreeTransaction::sale(array_merge([
 			'amount'             => (string) round($amount * (1 + ($this->taxPercentage / 100)) , 2),
