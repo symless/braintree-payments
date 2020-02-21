@@ -125,10 +125,6 @@ trait Billable
 			'recurring'          => false,
 		], $options));
 
-		if (!$response->success) {
-			throw new BraintreeException('Braintree was unable to process a charge: ' . $response->message);
-		}
-
 		return $response;
 	}
 
