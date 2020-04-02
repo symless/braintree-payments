@@ -20,7 +20,7 @@ class BraintreePaymentsTest extends TestCase
 		}
 	}
 
-	public function setUp()
+	public function setUp(): void
 	{
 		Braintree_Configuration::environment('sandbox');
 		Braintree_Configuration::merchantId(getenv('BRAINTREE_MERCHANT_ID'));
