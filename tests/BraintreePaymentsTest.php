@@ -12,15 +12,15 @@ use Symless\BraintreePayments\Http\Controllers\BraintreeWebhookController;
 
 class BraintreePaymentsTest extends TestCase
 {
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		if (file_exists(__DIR__ . '/../.env')) {
-			$dotenv = new \Dotenv\Dotenv(__DIR__ . '/../');
+			$dotenv = \Dotenv\Dotenv::create(__DIR__ . '/../');
 			$dotenv->load();
 		}
 	}
 
-	public function setUp()
+	public function setUp(): void
 	{
 		Braintree_Configuration::environment('sandbox');
 		Braintree_Configuration::merchantId(getenv('BRAINTREE_MERCHANT_ID'));
@@ -52,7 +52,7 @@ class BraintreePaymentsTest extends TestCase
 		});
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		$this->schema()->drop('users');
 	}
