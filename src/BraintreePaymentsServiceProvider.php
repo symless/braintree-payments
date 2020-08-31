@@ -17,12 +17,7 @@ class BraintreePaymentsServiceProvider extends ServiceProvider
 	 * @return void
 	 */
 	public function boot()
-	{
-		$this->loadViewsFrom(__DIR__ . '/../resources/views', 'symless/braintree-payments');
-
-		$this->publishes([
-			__DIR__ . '/../resources/views' => base_path('resources/views/vendor/symless/braintree-payments'),
-		]);
+	{	
 	}
 
 	/**
